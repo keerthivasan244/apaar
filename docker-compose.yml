@@ -1,0 +1,15 @@
+services:
+  app:
+    build: .
+    image: apaar-verify:latest
+    ports:
+      - "8000:8000"
+    environment:
+      DEMO_MODE: "true"
+      JWT_SECRET: "${JWT_SECRET:-change-me-demo-secret}"
+      DEMO_OTP: "123456"
+      ANTHROPIC_API_KEY: "${ANTHROPIC_API_KEY:-}"
+    volumes:
+      - apaar-data:/app/data
+volumes:
+  apaar-data:

@@ -1,0 +1,16 @@
+{
+  "academic_year": 2026,
+  "apaar_regex": "^\\d{12}$",
+  "intake_categories": ["Regular", "EWS", "Sports"],
+  "supernumerary_cap_pct": { "TFW": 5, "PMSSS": 5, "NRI": 15, "OCI": 15, "FN": 15 },
+  "levels": ["UG", "PG", "DIPLOMA"],
+  "shifts": ["Day", "Evening"],
+  "genders": ["M", "F", "O"],
+  "social_categories": ["General", "SC", "ST", "OBC", "EWS", "NA"],
+  "age_range_on_1_july": { "UG": [16, 30], "PG": [20, 45], "DIPLOMA": [14, 30] },
+  "match_thresholds": { "probable": 0.90, "review": 0.75 },
+  "match_weights": { "name": 0.40, "father_name": 0.25, "dob": 0.20, "gender": 0.05, "phone": 0.10 },
+  "risk_weights": { "over_intake": 35, "duplicates": 25, "data_quality": 15, "flag_ageing": 10, "anomaly": 15 },
+  "risk_bands": { "low_max": 30, "medium_max": 60 },
+  "consent_ttl_hours": 24
+}
