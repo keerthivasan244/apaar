@@ -26,6 +26,8 @@ The first run creates `.venv`, installs the backend and frontend packages and se
 
 Other root scripts: `npm run seed` (reset the demo data), `npm test` (backend tests), `npm run build` (production frontend build).
 
+If Python is not found: the script checks `PYTHON`, Homebrew (`/usr/local/opt/python@3.X`, `/opt/homebrew/opt/python@3.X`), python.org installs, `python3.X`, `python3` and `python`, and asks each interpreter for its real version. To choose one explicitly: `PYTHON=/usr/local/opt/python@3.13/bin/python3.13 npm run dev`. An existing `.venv` built with an older or missing Python is rebuilt automatically (only if it contains nothing but a generated virtual environment).
+
 ### Docker (production style, port 8000)
 
 ```bash
