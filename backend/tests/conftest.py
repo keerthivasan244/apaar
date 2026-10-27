@@ -26,10 +26,18 @@ def seeded():
 
 
 @pytest.fixture
-def reseed():
-    """Use in tests that mutate data and need a clean slate."""
-    reset_and_seed()
+def restore_seed(seeded):
+    """Use in tests that mutate data: the seed is restored afterwards for the next test."""
     yield
+    reset_and_seed()
+
+
+@pytest.fixture
+def db(seeded):
+    from app.db import SessionLocal
+
+    with SessionLocal() as session:
+        yield session
 
 
 @pytest.fixture(scope="session")

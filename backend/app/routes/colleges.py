@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 from ..db import get_db
 from ..models import College, User
 from ..security import INSTITUTION, OFFICER, assert_college_access, require_roles
+from ..services import ledger
 
 router = APIRouter(prefix="/colleges", tags=["colleges"])
 
@@ -27,3 +28,12 @@ def get_college(college_id: int, db: Session = Depends(get_db),
     if college is None:
         raise HTTPException(404, "College not found")
     return college_dict(college)
+
+
+@router.get("/{college_id}/programmes")
+def college_programmes(college_id: int, db: Session = Depends(get_db),
+                       user: User = Depends(require_roles(OFFICER, INSTITUTION))):
+    assert_college_access(user, college_id)
+    if db.get(College, college_id) is None:
+        raise HTTPException(404, "College not found")
+    return ledger.college_ledger(db, college_id)
