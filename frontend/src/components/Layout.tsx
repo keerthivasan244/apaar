@@ -1,7 +1,7 @@
 import { ReactNode, useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import {
-  BarChart3, CheckSquare, FileDown, Flag, GitCompare, Home, KeyRound, LogOut, Menu, MessageSquareText, School,
+  BarChart3, CheckSquare, FileDown, Flag, GitCompare, Home, KeyRound, LogOut, Menu, School,
   ScrollText, ShieldCheck, Upload, Users, Wallet, X,
 } from "lucide-react";
 import type { Role } from "../api/types";
@@ -31,7 +31,6 @@ const NAV: Record<Role, NavItem[]> = {
     { to: "/aicte/risk", label: "Risk scores", icon: <BarChart3 size={18} /> },
     { to: "/aicte/audit", label: "Audit chain", icon: <ScrollText size={18} /> },
     { to: "/aicte/reports", label: "Reports", icon: <FileDown size={18} /> },
-    { to: "/aicte/ask", label: "Ask (beta)", icon: <MessageSquareText size={18} /> },
   ],
   student: [{ to: "/student", label: "My wallet", icon: <Wallet size={18} />, end: true }],
   verifier: [{ to: "/verifier", label: "Verify a student", icon: <CheckSquare size={18} />, end: true }],

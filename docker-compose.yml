@@ -6,7 +6,7 @@ services:
       - "8000:8000"
     environment:
       DEMO_MODE: "true"
-      JWT_SECRET: "${JWT_SECRET:-change-me-demo-secret}"
+      JWT_SECRET: "${JWT_SECRET:-change-me-demo-secret-at-least-32-bytes}"
       DEMO_OTP: "123456"
       ANTHROPIC_API_KEY: "${ANTHROPIC_API_KEY:-}"
     volumes:
