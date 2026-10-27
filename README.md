@@ -13,6 +13,19 @@ A platform where AICTE-approved institutions submit student data keyed on the AP
 
 ## Run it
 
+### Quickest: `npm run dev`
+
+Requirements: Python 3.11+ and Node 20+.
+
+```bash
+npm run dev
+# open http://localhost:5173  (log in with any demo account below)
+```
+
+The first run creates `.venv`, installs the backend and frontend packages and seeds the demo database, which takes a few minutes. Later runs start in seconds. Ctrl+C stops both servers.
+
+Other root scripts: `npm run seed` (reset the demo data), `npm test` (backend tests), `npm run build` (production frontend build).
+
 ### Docker (production style, port 8000)
 
 ```bash
