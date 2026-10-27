@@ -1,7 +1,6 @@
 import { Route } from "react-router-dom";
 import ProtectedRoute from "./auth/ProtectedRoute";
 import Layout from "./components/Layout";
-import { Card, PageHeader } from "./components/ui";
 import AicteDashboard from "./pages/aicte/Dashboard";
 import Colleges from "./pages/aicte/Colleges";
 import CollegeDetail from "./pages/aicte/CollegeDetail";
@@ -12,15 +11,8 @@ import Risk from "./pages/aicte/Risk";
 import Audit from "./pages/aicte/Audit";
 import Reports from "./pages/aicte/Reports";
 import Ask from "./pages/aicte/Ask";
-
-function Placeholder({ title }: { title: string }) {
-  return (
-    <>
-      <PageHeader title={title} />
-      <Card>Coming in the next phase.</Card>
-    </>
-  );
-}
+import StudentWallet from "./pages/Student";
+import Verifier from "./pages/Verifier";
 
 /** Routes for the AICTE console, student wallet and verifier portal. */
 export function routesFor() {
@@ -39,10 +31,10 @@ export function routesFor() {
         <Route path="/aicte/ask" element={<Ask />} />
       </Route>
       <Route element={<ProtectedRoute roles={["student"]}><Layout /></ProtectedRoute>}>
-        <Route path="/student" element={<Placeholder title="Student wallet" />} />
+        <Route path="/student" element={<StudentWallet />} />
       </Route>
       <Route element={<ProtectedRoute roles={["verifier"]}><Layout /></ProtectedRoute>}>
-        <Route path="/verifier" element={<Placeholder title="Verifier portal" />} />
+        <Route path="/verifier" element={<Verifier />} />
       </Route>
     </>
   );

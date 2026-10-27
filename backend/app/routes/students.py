@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 from ..db import get_db
 from ..models import College, Flag, Student, User
 from ..schemas import StudentIn
-from ..security import INSTITUTION, OFFICER, assert_college_access, get_current_user, require_roles, scoped_college_id
+from ..security import INSTITUTION, OFFICER, STUDENT, assert_college_access, get_current_user, require_roles, scoped_college_id
 from ..services import validation
 from ..services.ingest import MAX_BYTES, UploadError, parse_upload, template_csv
 from .common import Page, mask_apaar
@@ -103,6 +103,16 @@ def list_students(page: Page = Depends(), college_id: int | None = None, program
                 Flag.student_id.in_([r.id for r in rows]), Flag.status == "open")):
             codes.setdefault(sid, []).append(code)
     return page.wrap([student_summary(s, user, codes.get(s.id, [])) for s in rows], total)
+
+
+@router.get("/students/me")
+def my_profile(db: Session = Depends(get_db), user: User = Depends(require_roles(STUDENT))):
+    s = db.get(Student, user.student_id) if user.student_id else None
+    if s is None:
+        raise HTTPException(404, "No student record is linked to this account")
+    return {"id": s.id, "name": s.name, "student_code": s.student_code, "apaar_id": mask_apaar(s.apaar_id),
+            "institution_name": s.college.name, "aicte_id": s.college.aicte_id,
+            "programme": s.programme.name if s.programme else s.programme_raw, "year": s.year, "status": s.status}
 
 
 @router.get("/students/{student_id}")

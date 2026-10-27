@@ -2,7 +2,7 @@ import { api, qs } from "./client";
 import type {
   AppConfig, AuditRow, ChainResult, CollegeAnalytics, CollegeRow, ConsentField, ConsentRow, CredentialPayload,
   CredentialRow, CredentialStatus, FlagRow, LookupResult, MatchRow, Overview, Paged, ProgrammeLedger,
-  PublicKeyInfo, RiskRow, StudentRow, UploadResult, User,
+  PublicKeyInfo, RiskRow, StudentProfile, StudentRow, UploadResult, User,
 } from "./types";
 
 type Params = Record<string, string | number | boolean | null | undefined>;
@@ -24,6 +24,7 @@ export const Api = {
     body.append("file", file);
     return api<UploadResult>(`/students/bulk?dry_run=${dryRun}`, { method: "POST", body });
   },
+  myProfile: () => api<StudentProfile>("/students/me"),
   students: (p: Params) => api<Paged<StudentRow>>(`/students${qs(p)}`),
 
   flags: (p: Params) => api<Paged<FlagRow>>(`/flags${qs(p)}`),

@@ -23,3 +23,4 @@ Ambiguities in PRD.md resolved during implementation. Simplest option that satis
 19. **APAAR registry mock** returns the first current-year record for an APAAR (active records first); the public lookup reveals only status, institution, programme and year.
 20. **Seeded credentials** are issued and Dev's revoked by actor `system`, so the chain begins with CREDENTIAL_ISSUE / CREDENTIAL_REVOKE entries followed by SEED. `DEMO_RESET` is appended after the reseed.
 21. **Tamper endpoint** adds `{"tampered": true}` to the chosen entry's payload with a direct SQL update, and is itself not audited (it simulates an attacker).
+22. **Student profile endpoint.** `GET /students/me` (student role) returns the linked record with a masked APAAR for the wallet profile card; the PRD lists no student-facing profile endpoint.

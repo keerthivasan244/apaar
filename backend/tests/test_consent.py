@@ -71,3 +71,9 @@ def test_public_lookup_rate_limit(client):
     codes = [client.get("/api/v1/verify/apaar/421900000101").status_code for _ in range(31)]
     assert codes[:30] == [200] * 30 and codes[30] == 429
     verify._hits.clear()
+
+
+def test_student_profile(client, auth):
+    me = client.get("/api/v1/students/me", headers=auth("student")).json()
+    assert me["name"] == "Ananya Rao" and me["apaar_id"] == "XXXXXXXX0101"
+    assert client.get("/api/v1/students/me", headers=auth("inst_a")).status_code == 403

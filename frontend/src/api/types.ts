@@ -325,3 +325,15 @@ export interface ChainResult {
   entries_checked: number;
   first_broken_id: number | null;
 }
+
+export interface StudentProfile {
+  id: number;
+  name: string;
+  student_code: string;
+  apaar_id: string | null;
+  institution_name: string;
+  aicte_id: string;
+  programme: string;
+  year: number;
+  status: string;
+}
