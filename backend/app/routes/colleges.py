@@ -1,11 +1,12 @@
 from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
 from ..db import get_db
-from ..models import College, User
+from ..models import College, Flag, User
 from ..security import INSTITUTION, OFFICER, assert_college_access, require_roles
 from ..services import ledger
+from ..services.risk import compute_risk
 
 router = APIRouter(prefix="/colleges", tags=["colleges"])
 
@@ -17,7 +18,16 @@ def college_dict(c: College) -> dict:
 
 @router.get("")
 def list_colleges(db: Session = Depends(get_db), _user: User = Depends(require_roles(OFFICER))):
-    return [college_dict(c) for c in db.scalars(select(College).order_by(College.id))]
+    risk = {r["college_id"]: r for r in compute_risk(db)}
+    open_flags = dict(db.execute(select(Flag.college_id, func.count()).where(Flag.status == "open")
+                                 .group_by(Flag.college_id)).all())
+    out = []
+    for c in db.scalars(select(College).order_by(College.id)):
+        r = risk[c.id]
+        out.append(college_dict(c) | {"students": r["facts"]["active_students"],
+                                      "open_flags": open_flags.get(c.id, 0), "risk_score": r["score"],
+                                      "risk_band": r["band"], "top_reason": (r["reasons"] or [None])[0]})
+    return out
 
 
 @router.get("/{college_id}")
