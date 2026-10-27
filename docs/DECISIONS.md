@@ -18,3 +18,8 @@ Ambiguities in PRD.md resolved during implementation. Simplest option that satis
 14. **Normal seed identities** are drawn until their best fuzzy score against everyone already generated is below the review threshold; names and DOB are redrawn together.
 15. **P7 (review band)**: both Karan records carry different phone numbers, which pulls the score to about 0.83 (a matching name, father and swapped DOB alone would score above 0.90).
 16. **Spelling variants**: `rehman` is deliberately not mapped to `rahman`, so the Aslam match shows a father's-name difference of one letter as in the PRD example.
+17. **Extra endpoints.** `GET /credentials` (officer, own institution) lists issued credentials for the institution credentials page. `GET /admin/demo/tokens` (demo mode only, public) lists the seeded sample tokens so presenters can open Ananya's and Dev's credentials on `/verify` (demo steps 10 to 12).
+18. **Consent state errors.** Approving/denying a request that is not `requested`, or revoking one that is already final, returns 409. Expiry is applied lazily when consents are read.
+19. **APAAR registry mock** returns the first current-year record for an APAAR (active records first); the public lookup reveals only status, institution, programme and year.
+20. **Seeded credentials** are issued and Dev's revoked by actor `system`, so the chain begins with CREDENTIAL_ISSUE / CREDENTIAL_REVOKE entries followed by SEED. `DEMO_RESET` is appended after the reseed.
+21. **Tamper endpoint** adds `{"tampered": true}` to the chosen entry's payload with a direct SQL update, and is itself not audited (it simulates an attacker).

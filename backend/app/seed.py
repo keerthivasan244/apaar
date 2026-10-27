@@ -338,7 +338,13 @@ def seed(db: Session, *, write_samples: bool = False) -> dict:
 
 
 def seed_credentials(db: Session, ananya: Student) -> None:
-    """Hook for Phase 6 (signed credentials)."""
+    """P15: Ananya holds a valid credential; Dev Malhotra's credential is revoked."""
+    from .services import credentials
+
+    credentials.issue(db, ananya, actor="system", actor_role="system")
+    dev = db.scalar(select(Student).where(Student.name == "Dev Malhotra", Student.college_id == 1))
+    cred = credentials.issue(db, dev, actor="system", actor_role="system")
+    credentials.revoke(db, cred, "Withdrawn from programme", actor="system", actor_role="system")
 
 
 # ------------------------------------------------------------------ sample upload files (PRD 10.4)
